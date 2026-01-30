@@ -170,20 +170,34 @@ c(1, 3) %>%
 
 ---
 
-class: middle
+## Regression in R
 
-## Setup
+The most basic regression function in R is `lm()`. It performs a linear regression, with the possibility to add additional control variables.
 
-.block-orange[
-At this point, you should know how to set up a data project folder. Do this now. This folder should include:
-- A "data" folder
-- A "code" folder
-- An "output" folder
-- **A .rproj file**
+.block-blue[
+Syntax: `lm(data = ds, formula = x ~ y)`
 ]
 
-Download the course data and documentation from Canvas. Once this is done, **open a new R script**. I will go through a chunk of code, and then you will be expected to replicate it.
+Today, we will be using both `lm()` and a function, `felm()` from the `lfe` package, which allows us to add fixed effects and cluster-robust standard errors to our regression. This is just a peek into how to perform more advanced econometrics in R, although it is not the focus of this course.
 
+.block-blue[
+Syntax: `lfe::felm(data = ds, formula = x ~ y | fe | 0 | fe)`
+]
+
+The `felm()` formula allows us to include (1) the basic formula with independent and dependent variable(s), (2) our fixed-effect variable(s), (3) instrumental variable(s), and (4) variables within which we want to cluster standard errors.
+
+---
+
+class: middle
+
+## Today's Practical Component
+
+- You will be following my live coding and then replicating it on your script.
+
+- After each coding chunk, you will get 5-10 minutes to apply it to your script:
+  - If you are not feeling confident in the live setting, you can exactly replicate what I am doing
+  - If you would like to get a head start on your course assignment, you can apply the process I am following to **a different set of variables within the dataset**.
+  
 ---
 
 class: middle
@@ -220,12 +234,16 @@ class: middle
 
 ## Today's Practical Component
 
-- You will be following my live coding and then replicating it on your script.
+.block-orange[
+At this point, you should know how to set up a data project folder. Do this now. This folder should include:
+- A "data" folder
+- A "code" folder
+- An "output" folder
+- **A .rproj file**
+]
 
-- After each coding chunk, you will get 5-10 minutes to apply it to your script:
-  - If you are not feeling confident in the live setting, you can exactly replicate what I am doing
-  - If you would like to get a head start on your course assignment, you can apply the process I am following to **a different set of variables within the dataset**.
-  
+Download the course data and documentation from Canvas. Once this is done, **open a new R script**. I will go through a chunk of code, and then you will be expected to replicate it.
+
 ---
 
 ## Today's Practical Component
