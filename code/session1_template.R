@@ -16,8 +16,31 @@
   wvs_raw <- fread(
     "data/intermediate/wvs_clean.csv", na.strings = ""
   )
+  
+  ## 3. Explore Data ----
+  
+# Life-Importance Subjects (Q1-6)
+  wvs_raw %>% skim(matches("q00[1-6]_life"))
+# Child Values (Q7-17)
+  wvs_raw %>% skim(matches("q0(0[7-9]|1[0-7])_child"))
+# Neighbor Preferences (Q18-26)
+  wvs_raw %>% skim(matches("q0(1[8-9]|2[0-6])_neighbor"))
+# Trust in Other People (Q58-63)
+  wvs_raw %>% skim(matches("q0(5[8-9]|6[0-3])_trust"))
+  # Confidence in Institutions (Q64-89, NOT with 82_suffix options)
+  wvs_raw %>% skim(matches("q0(6[4-9]|7[0-9]|8[0-9])_confidence"))
+  # Organization Membership (Q94-104, NOT with _r suffix)
+  wvs_raw %>% skim(matches("q(09[4-9]|10[0-4])_member"))
+  # Corruption Perception (Q113-117)
+  wvs_raw %>% skim(matches("q11[3-7]_corr"))
+  # Immigration Perception (Q122-129)
+  wvs_raw %>% skim(matches("q12[2-9]_immigr"))
+  # Information Source (Q201-208)
+  wvs_raw %>% skim(matches("q20[1-8]_info_source"))
+  # Elections Perception (Q224-233)
+  wvs_raw %>% skim(matches("q2(2[4-9]|3[0-3])_elect"))
 
-  ## 3. Simple Regression Example — One Variable ----
+  ## 4. Simple Regression Example — One Variable ----
   
 # Research question: What is the relationship between child qualities and personal education level?
   
@@ -81,7 +104,7 @@
   
   summary(q007_control_fe_lm)
 
-  ## 4. Iterated Regressions ----
+  ## 5. Iterated Regressions ----
   
 # Process: use map() to perform lm process on multiple variables
   
@@ -126,7 +149,7 @@
       )
     )
   
-  ## 5. Quick Visualization Using Stargazer ----
+  ## 6. Quick Visualization Using Stargazer ----
   
   q007_lm_stargazer <- list(
     q007_lm, q007_control_lm, q007_control_fe_lm
@@ -158,7 +181,7 @@
   writeLines(q007_lm_stargazer, "output/q007_lm.tex")
   pdflatex(file = "output/q007_lm.tex", pdf_file = "output/q007_lm.pdf")
   
-  ## 6. Iterated Visualizations Using Stargazer ----
+  ## 7. Iterated Visualizations Using Stargazer ----
   
   child_quality_labels <- c(
     "Manners", "Independence", "Hard Work", "Responsibility", "Imagination",
@@ -206,7 +229,7 @@
       )
     )
   
-  ## 7. Outputting Iterated Regressions as Dataset ----
+  ## 8. Outputting Iterated Regressions as Dataset ----
   
   child_quality_control_fe_lm_data <- child_quality_control_fe_lms %>%
     map2(
