@@ -1,0 +1,56 @@
+\documentclass[preview]{standalone}
+\usepackage{adjustbox}
+\usepackage{graphicx}
+\begin{document}
+
+\begin{table}[!htbp] \centering 
+  \caption{Relationship Between Child Manners and Education Level} 
+  \label{} 
+\begin{adjustbox}{max width=\textwidth}
+\begin{tabular}{@{\extracolsep{5pt}}lccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+ & \multicolumn{3}{c}{Child Manners} \\ 
+\cline{2-4} 
+\\[-1.8ex] & \multicolumn{2}{c}{\textit{OLS}} & \textit{felm} \\ 
+ & Reg & Reg w/ Controls & Reg w/ Controls and Country FE \\ 
+\\[-1.8ex] & (1) & (2) & (3)\\ 
+\hline \\[-1.8ex] 
+ Education Level & $-$0.0207$^{***}$ & $-$0.0218$^{***}$ & $-$0.0080$^{***}$ \\ 
+  & (0.0007) & (0.0007) & (0.0024) \\ 
+  & & & \\ 
+ Gender &  & 0.0135$^{***}$ & 0.0149$^{***}$ \\ 
+  &  & (0.0028) & (0.0033) \\ 
+  & & & \\ 
+ Age &  & $-$0.0009$^{***}$ & $-$0.0001 \\ 
+  &  & (0.0001) & (0.0002) \\ 
+  & & & \\ 
+ Immigrant &  & 0.0069 & 0.0196 \\ 
+  &  & (0.0061) & (0.0119) \\ 
+  & & & \\ 
+ Birth Country &  & 0.000003 & $-$0.000001 \\ 
+  &  & (0.000002) & (0.000003) \\ 
+  & & & \\ 
+ Employment Status &  & $-$0.0003 & $-$0.0005 \\ 
+  &  & (0.0007) & (0.0008) \\ 
+  & & & \\ 
+ Income Level &  & $-$0.0006 & $-$0.0016 \\ 
+  &  & (0.0007) & (0.0013) \\ 
+  & & & \\ 
+ Constant & 0.8487$^{***}$ & 0.8623$^{***}$ &  \\ 
+  & (0.0027) & (0.0097) &  \\ 
+  & & & \\ 
+\hline \\[-1.8ex] 
+Country FE &  &  & X \\ 
+Observations & 95,798 & 88,998 & 88,998 \\ 
+R$^{2}$ & 0.0100 & 0.0117 & 0.1384 \\ 
+Adjusted R$^{2}$ & 0.0100 & 0.0116 & 0.1377 \\ 
+Residual Std. Error & 0.4156 (df = 95796) & 0.4174 (df = 88990) & 0.3898 (df = 88926) \\ 
+F Statistic & 971.1778$^{***}$ (df = 1; 95796) & 150.7589$^{***}$ (df = 7; 88990) &  \\ 
+\hline 
+\hline \\[-1.8ex] 
+\textit{Note:}  & \multicolumn{3}{r}{$^{*}$p$<$0.1; $^{**}$p$<$0.05; $^{***}$p$<$0.01} \\ 
+\end{tabular} 
+\end{adjustbox}
+\end{table}
+\end{document}

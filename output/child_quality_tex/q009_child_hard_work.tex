@@ -1,0 +1,56 @@
+\documentclass[preview]{standalone}
+\usepackage{adjustbox}
+\usepackage{graphicx}
+\begin{document}
+
+\begin{table}[!htbp] \centering 
+  \caption{Relationship Between Child Hard Work and Education Level} 
+  \label{} 
+\begin{adjustbox}{max width=\textwidth}
+\begin{tabular}{@{\extracolsep{5pt}}lccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+ & \multicolumn{3}{c}{Child Hard Work} \\ 
+\cline{2-4} 
+\\[-1.8ex] & \multicolumn{2}{c}{\textit{OLS}} & \textit{felm} \\ 
+ & Reg & Reg w/ Controls & Reg w/ Controls and Country FE \\ 
+\\[-1.8ex] & (1) & (2) & (3)\\ 
+\hline \\[-1.8ex] 
+ Education Level & $-$0.0070$^{***}$ & $-$0.0066$^{***}$ & $-$0.0092$^{***}$ \\ 
+  & (0.0008) & (0.0009) & (0.0023) \\ 
+  & & & \\ 
+ Gender &  & $-$0.0360$^{***}$ & $-$0.0342$^{***}$ \\ 
+  &  & (0.0034) & (0.0059) \\ 
+  & & & \\ 
+ Age &  & 0.0005$^{***}$ & 0.0013$^{***}$ \\ 
+  &  & (0.0001) & (0.0003) \\ 
+  & & & \\ 
+ Immigrant &  & $-$0.0005 & 0.0338$^{**}$ \\ 
+  &  & (0.0073) & (0.0137) \\ 
+  & & & \\ 
+ Birth Country &  & 0.00002$^{***}$ & 0.000004 \\ 
+  &  & (0.000003) & (0.000003) \\ 
+  & & & \\ 
+ Employment Status &  & $-$0.0019$^{**}$ & $-$0.0046$^{***}$ \\ 
+  &  & (0.0008) & (0.0015) \\ 
+  & & & \\ 
+ Income Level &  & 0.0012 & 0.0003 \\ 
+  &  & (0.0008) & (0.0015) \\ 
+  & & & \\ 
+ Constant & 0.5588$^{***}$ & 0.5732$^{***}$ &  \\ 
+  & (0.0033) & (0.0116) &  \\ 
+  & & & \\ 
+\hline \\[-1.8ex] 
+Country FE &  &  & X \\ 
+Observations & 95,523 & 88,744 & 88,744 \\ 
+R$^{2}$ & 0.0008 & 0.0032 & 0.1141 \\ 
+Adjusted R$^{2}$ & 0.0008 & 0.0031 & 0.1134 \\ 
+Residual Std. Error & 0.4987 (df = 95521) & 0.4984 (df = 88736) & 0.4700 (df = 88672) \\ 
+F Statistic & 77.1907$^{***}$ (df = 1; 95521) & 40.2304$^{***}$ (df = 7; 88736) &  \\ 
+\hline 
+\hline \\[-1.8ex] 
+\textit{Note:}  & \multicolumn{3}{r}{$^{*}$p$<$0.1; $^{**}$p$<$0.05; $^{***}$p$<$0.01} \\ 
+\end{tabular} 
+\end{adjustbox}
+\end{table}
+\end{document}

@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>R Advanced Skills Course — Session 1</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Marc-Andrea Fiorina" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/panelset/panelset.css" rel="stylesheet" />
+    <script src="libs/panelset/panelset.js"></script>
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+    <link rel="stylesheet" href="hygge.css" type="text/css" />
+    <link rel="stylesheet" href="custom_css.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+
+
+
+
+
+
+
+
+class: center, middle
+
+# MIEF Skills Workshop: Modeling in R
+
+## Session 1
+
+### January 30, 2026
+
+---
+
+class: middle
+
+## Course Purpose
+
+.blockquote-blue[
+**What this course will do:**
+
+- Introduce you to iterative regression methods in R
+
+- Provide you with a template to conduct statistical modeling, analysis, and visualization in R
+]
+
+.blockquote-red[
+**What this course WON'T do:**
+
+- Teach you econometrics
+]
+
+---
+
+## Today
+
+This course will involve less theory than the previous course. You should refer to the introductory R course if you're fuzzy on basic R details.
+
+This course will be far more **practical**. I will be building an R script alongside you, as you build your own R script to "learn by doing."
+
+.blockquote-orange[
+Today, we will be:
+- Building a simple statistical model to answer a very simple research question: one dependent variable, one independent variable
+- Fleshing the statistical process out more with control variables and fixed effects
+- Iterating our statistical process to encompass multiple dependent variables
+- Exploring a simple method to output regression tables
+- Iterating that method to work for multiple dependent variables
+]
+
+---
+
+## Quick Refresh: Tidyverse
+
+.panelset[
+
+.panel[.panel-name[Base R Layout]
+
+
+``` r
+names(iris)
+```
+
+```
+## [1] "Sepal.Length" "Sepal.Width"  "Petal.Length" "Petal.Width"  "Species"
+```
+
+
+``` r
+str_replace(str_to_lower(names(iris)), "\\.", "_")
+```
+
+```
+## [1] "sepal_length" "sepal_width"  "petal_length" "petal_width"  "species"
+```
+
+]
+
+.panel[.panel-name[Tidyverse Layout]
+
+Tidyverse functions introduce a 'cleaner' method to write code out, using what is called the 'pipe operator': **`%&gt;%`**. It's almost like writing a recipe, step by step.
+
+
+``` r
+names(iris)
+```
+
+```
+## [1] "Sepal.Length" "Sepal.Width"  "Petal.Length" "Petal.Width"  "Species"
+```
+
+
+``` r
+iris %&gt;%
+  names() %&gt;%
+  str_to_lower() %&gt;%
+  str_replace("\\.", "_")
+```
+
+```
+## [1] "sepal_length" "sepal_width"  "petal_length" "petal_width"  "species"
+```
+
+(Note — you can also write the pipe operator as **|&gt;**)
+
+]
+
+]
+
+---
+
+## Quick Refresh: Using `map()`
+
+The `map()` function from the `purrr` package allows us to **apply the same function(s) to a set of objects**.
+
+
+``` r
+library(purrr)
+purrr::map(
+    .x = list(
+        c(-10, 0, 10), c(1, 2, 3, 4, 5)
+    ),
+    .f = function(x)
+      (x - min(x, na.rm = TRUE)) /
+      (max(x, na.rm = TRUE) - min(x, na.rm = TRUE))
+)
+```
+
+```
+## [[1]]
+## [1] 0.0 0.5 1.0
+## 
+## [[2]]
+## [1] 0.00 0.25 0.50 0.75 1.00
+```
+
+---
+
+## Quick Refresh: Using `map()`
+
+`map()` has a shorthand to simplify its use: instead of writing the function out, you can replace `function() {}` with `\(argument)` and the function's argument with `argument` ("argument" can be replaced with whatever you want).
+
+.pull-left[
+
+``` r
+c(1, 3) %&gt;%
+  map(
+    function(x) {
+        x + 10
+    }
+  ) %&gt;%
+  as.numeric()
+```
+
+```
+## [1] 11 13
+```
+]
+.pull-right[
+
+``` r
+c(1, 3) %&gt;%
+  map(
+    \(vlu) vlu + 10
+  ) %&gt;%
+  as.numeric()
+```
+
+```
+## [1] 11 13
+```
+]
+
+---
+
+class: middle
+
+## Setup
+
+.blockquote-orange[
+At this point, you should know how to set up a data project folder. Do this now. This folder should include:
+- A "data" folder
+- A "code" folder
+- An "output" folder
+- **A .rproj file**
+]
+
+Download the course data and documentation from Canvas. Once this is done, **open a new R script**. I will go through a chunk of code, and then you will be expected to replicate it.
+
+---
+
+class: middle
+
+## The World Values Survey
+
+.blockquote-blue[
+*"The survey, which started in 1981, seeks to use the most rigorous, high-quality research designs in each country. The WVS consists of nationally representative surveys conducted in almost 100 countries which contain almost 90 percent of the world’s population, using a common questionnaire. [...] WVS seeks to help scientists and policy makers understand changes in the beliefs, values and motivations of people throughout the world."*
+]
+
+.pull-left[
+- Social values, attitudes &amp; stereotypes
+- Societal well-being
+- Social capital, trust and organizational membership
+- Economic values
+- Corruption
+- Migration
+- Post-materialist index
+]
+
+.pull-right[
+- Science &amp; technology
+- Religious values
+- Security
+- Ethical values &amp; norms
+- Political interest and political participation
+- Political culture and political regimes
+- Demography
+]
+
+---
+
+class: middle
+
+## Today's Practical Component
+
+- You will be following my live coding and then replicating it on your script.
+
+- After each coding chunk, you will get 5-10 minutes to apply it to your script:
+  - If you are not feeling confident in the live setting, you can exactly replicate what I am doing
+  - If you would like to get a head start on your course assignment, you can apply the process I am following to **a different set of variables within the dataset**.
+  
+---
+
+## Today's Practical Component
+  
+I am answering the research question: what relationship is there between a respondent's education level and how they raise their children? To do this, I am using Q275 (education level) as the independent variable, and Q7-17 (child values) as the dependent variables from the World Values Survey.
+
+.blockquote-orange[
+For the purpose of today's session, I would recommend sticking to education level as the independent variable. Here are some other dependent variables you could consider using:
+- Life-Importance Subjects (Q1-6)
+- Neighbor Priorities (Q18-26)
+- Trust in Other People (Q58-63)
+- Confidence in Institutions (Q64-89, NOT with 82_suffix options)
+- Organization Membership (Q94-104, NOT with _r suffix)
+- Corruption Perception (Q113-117)
+- Immigration Perception (Q122-129)
+- Information Source (Q201-208)
+- Elections Perception (Q224-233)
+]
+
+---
+
+class: middle
+
+## Today's Practical Componnent
+
+.blockquote-blue[
+1. Setup
+
+2. Import Data
+
+3. Simple Regression — One Dependent Variable
+
+4. Iterated Regressions — Multiple Dependent Variables
+
+5. Simple Visualization (Stargazer and LateX)
+
+6. Iterated Visualizations (Stargazer and LateX)
+
+7. Outputting Iterated Regressions as a Dataset
+]
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+  "highlightStyle": "github",
+  "highlightLines": true,
+  "countIncrementalSlides": false,
+  "slideNumberFormat": "%current%"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
