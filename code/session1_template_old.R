@@ -150,7 +150,87 @@
       )
     )
   
-  ## 6. Outputting Iterated Regressions as Dataset ----
+  ## 6. Quick Visualization Using Stargazer ----
+  
+  q007_lm_stargazer <- list(
+    q007_lm, q007_control_lm, q007_control_fe_lm
+  ) %>%
+    stargazer(
+      title            = "Relationship Between Child Manners and Education Level",
+      dep.var.labels.include = FALSE,
+      dep.var.caption        = "Child Manners",
+      column.labels    = c("Reg", "Reg w/ Controls", "Reg w/ Controls and Country FE"),
+      covariate.labels = c(
+        "Education Level", "Gender", "Age", "Immigrant", "Birth Country", "Has Children",
+        "Employment Status", "Income Level"
+      ),
+      add.lines = list(c("Country FE", "", "", "X")),
+      digits = 4,
+      header = FALSE
+    )
+  
+# Manual modifications to be able to modify within R
+  
+  q007_lm_stargazer <- c(
+    "\\documentclass[preview]{standalone}", "\\usepackage{adjustbox}", "\\usepackage{graphicx}", "\\begin{document}",
+    q007_lm_stargazer[1:4],
+    "\\begin{adjustbox}{max width=\\textwidth}",
+    q007_lm_stargazer[5:48],
+    "\\end{adjustbox}", "\\end{table}", "\\end{document}"
+  )
+  
+  writeLines(q007_lm_stargazer, "output/q007_lm.tex")
+  pdflatex(file = "output/q007_lm.tex", pdf_file = "output/q007_lm.pdf")
+  
+  ## 7. Iterated Visualizations Using Stargazer ----
+  
+  child_value_labels <- c(
+    "Manners", "Independence", "Hard Work", "Responsibility", "Imagination",
+    "Tolerance", "Thrift", "Perseverance", "Faith", "Selflessness", "Obedience"
+  )
+  
+  child_value_lms_stargazer <- pmap(
+    list(child_value_lms, child_value_control_lms, child_value_control_fe_lms, child_value_labels),
+    \(lm, lm_control, lm_control_fe, label) {
+      lm_stargazer <- list(lm, lm_control, lm_control_fe) %>%
+        stargazer(
+          title                  = paste0("Relationship Between Child ", label, " and Education Level"),
+          dep.var.labels.include = FALSE,
+          dep.var.caption        = paste0("Child ", label),
+          column.labels          = c("Reg", "Reg w/ Controls", "Reg w/ Controls and Country FE"),
+          covariate.labels       = c(
+            "Education Level", "Gender", "Age", "Immigrant", "Birth Country",
+            "Employment Status", "Income Level"
+          ),
+          add.lines = list(c("Country FE", "", "", "X")),
+          digits = 4,
+          header = FALSE
+        )
+      lm_stargazer <- c(
+        "\\documentclass[preview]{standalone}", "\\usepackage{adjustbox}", "\\usepackage{graphicx}", "\\begin{document}",
+        lm_stargazer[1:4],
+        "\\begin{adjustbox}{max width=\\textwidth}",
+        lm_stargazer[5:48],
+        "\\end{adjustbox}", "\\end{table}", "\\end{document}"
+      )
+    }
+  )
+  
+  child_value_lms_stargazer %>%
+    map2(
+      child_value_vars,
+      \(sg, var) writeLines(sg, paste0("output/child_value_tex/", var, ".tex"))
+    )
+  
+  child_value_vars %>%
+    map(
+      \(var) pdflatex(
+        file     = paste0("output/child_value_tex/", var, ".tex"),
+        pdf_file = paste0("output/child_value_pdf/", var, ".pdf")
+      )
+    )
+  
+  ## 8. Outputting Iterated Regressions as Dataset ----
   
   child_value_control_fe_lm_data <- child_value_control_fe_lms %>%
     map2(
@@ -163,8 +243,6 @@
         select(dep_var, everything(), -c(term, statistic))
     ) %>%
     list_rbind()
-  
-  ## 7. Export Data ----
   
   write.csv(
     child_value_control_fe_lm_data, "output/child_value_lm.csv", row.names = FALSE, na = ""

@@ -1,0 +1,59 @@
+\documentclass[preview]{standalone}
+\usepackage{adjustbox}
+\usepackage{graphicx}
+\begin{document}
+
+\begin{table}[!htbp] \centering 
+  \caption{Relationship Between Child Responsibility and Education Level} 
+  \label{} 
+\begin{adjustbox}{max width=\textwidth}
+\begin{tabular}{@{\extracolsep{5pt}}lccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+ & \multicolumn{3}{c}{Child Responsibility} \\ 
+\cline{2-4} 
+\\[-1.8ex] & \multicolumn{2}{c}{\textit{OLS}} & \textit{felm} \\ 
+ & Reg & Reg w/ Controls & Reg w/ Controls and Country FE \\ 
+\\[-1.8ex] & (1) & (2) & (3)\\ 
+\hline \\[-1.8ex] 
+ Education Level & 0.0142$^{***}$ & 0.0143$^{***}$ & 0.0142$^{***}$ \\ 
+  & (0.0008) & (0.0009) & (0.0015) \\ 
+  & & & \\ 
+ Gender &  & 0.0271$^{***}$ & 0.0170$^{***}$ \\ 
+  &  & (0.0033) & (0.0043) \\ 
+  & & & \\ 
+ Age &  & 0.0018$^{***}$ & 0.0008$^{***}$ \\ 
+  &  & (0.0001) & (0.0003) \\ 
+  & & & \\ 
+ Immigrant &  & 0.0176$^{**}$ & 0.0056 \\ 
+  &  & (0.0072) & (0.0133) \\ 
+  & & & \\ 
+ Birth Country &  & $-$0.000002 & 0.00001$^{***}$ \\ 
+  &  & (0.000003) & (0.000002) \\ 
+  & & & \\ 
+ Has Children &  & $-$0.0097$^{***}$ & $-$0.0017 \\ 
+  &  & (0.0011) & (0.0015) \\ 
+  & & & \\ 
+ Employment Status &  & $-$0.0054$^{***}$ & $-$0.0012 \\ 
+  &  & (0.0008) & (0.0009) \\ 
+  & & & \\ 
+ Income Level &  & 0.0003 & 0.0005 \\ 
+  &  & (0.0008) & (0.0014) \\ 
+  & & & \\ 
+ Constant & 0.5994$^{***}$ & 0.4974$^{***}$ &  \\ 
+  & (0.0031) & (0.0114) &  \\ 
+  & & & \\ 
+\hline \\[-1.8ex] 
+Country FE &  &  & X \\ 
+Observations & 95,652 & 85,259 & 85,259 \\ 
+R$^{2}$ & 0.0036 & 0.0089 & 0.0680 \\ 
+Adjusted R$^{2}$ & 0.0036 & 0.0088 & 0.0672 \\ 
+Residual Std. Error & 0.4761 (df = 95650) & 0.4747 (df = 85250) & 0.4605 (df = 85188) \\ 
+F Statistic & 349.0340$^{***}$ (df = 1; 95650) & 95.8670$^{***}$ (df = 8; 85250) &  \\ 
+\hline 
+\hline \\[-1.8ex] 
+\textit{Note:}  & \multicolumn{3}{r}{$^{*}$p$<$0.1; $^{**}$p$<$0.05; $^{***}$p$<$0.01} \\ 
+\end{tabular} 
+\end{adjustbox}
+\end{table}
+\end{document}

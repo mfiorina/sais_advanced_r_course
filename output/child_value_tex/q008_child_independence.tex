@@ -1,0 +1,59 @@
+\documentclass[preview]{standalone}
+\usepackage{adjustbox}
+\usepackage{graphicx}
+\begin{document}
+
+\begin{table}[!htbp] \centering 
+  \caption{Relationship Between Child Independence and Education Level} 
+  \label{} 
+\begin{adjustbox}{max width=\textwidth}
+\begin{tabular}{@{\extracolsep{5pt}}lccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+ & \multicolumn{3}{c}{Child Independence} \\ 
+\cline{2-4} 
+\\[-1.8ex] & \multicolumn{2}{c}{\textit{OLS}} & \textit{felm} \\ 
+ & Reg & Reg w/ Controls & Reg w/ Controls and Country FE \\ 
+\\[-1.8ex] & (1) & (2) & (3)\\ 
+\hline \\[-1.8ex] 
+ Education Level & 0.0212$^{***}$ & 0.0171$^{***}$ & 0.0109$^{***}$ \\ 
+  & (0.0008) & (0.0009) & (0.0019) \\ 
+  & & & \\ 
+ Gender &  & 0.0239$^{***}$ & 0.0156$^{**}$ \\ 
+  &  & (0.0034) & (0.0060) \\ 
+  & & & \\ 
+ Age &  & 0.0007$^{***}$ & $-$0.0010$^{***}$ \\ 
+  &  & (0.0001) & (0.0003) \\ 
+  & & & \\ 
+ Immigrant &  & 0.0700$^{***}$ & 0.0127 \\ 
+  &  & (0.0075) & (0.0131) \\ 
+  & & & \\ 
+ Birth Country &  & 0.000002 & $-$0.000005$^{*}$ \\ 
+  &  & (0.000003) & (0.000003) \\ 
+  & & & \\ 
+ Has Children &  & $-$0.0123$^{***}$ & 0.0006 \\ 
+  &  & (0.0011) & (0.0016) \\ 
+  & & & \\ 
+ Employment Status &  & $-$0.0099$^{***}$ & $-$0.0036$^{***}$ \\ 
+  &  & (0.0009) & (0.0012) \\ 
+  & & & \\ 
+ Income Level &  & 0.0017$^{**}$ & 0.0013 \\ 
+  &  & (0.0008) & (0.0014) \\ 
+  & & & \\ 
+ Constant & 0.3569$^{***}$ & 0.2560$^{***}$ &  \\ 
+  & (0.0032) & (0.0118) &  \\ 
+  & & & \\ 
+\hline \\[-1.8ex] 
+Country FE &  &  & X \\ 
+Observations & 95,188 & 84,872 & 84,872 \\ 
+R$^{2}$ & 0.0074 & 0.0131 & 0.0847 \\ 
+Adjusted R$^{2}$ & 0.0074 & 0.0130 & 0.0839 \\ 
+Residual Std. Error & 0.4936 (df = 95186) & 0.4895 (df = 84863) & 0.4716 (df = 84801) \\ 
+F Statistic & 713.3335$^{***}$ (df = 1; 95186) & 140.3478$^{***}$ (df = 8; 84863) &  \\ 
+\hline 
+\hline \\[-1.8ex] 
+\textit{Note:}  & \multicolumn{3}{r}{$^{*}$p$<$0.1; $^{**}$p$<$0.05; $^{***}$p$<$0.01} \\ 
+\end{tabular} 
+\end{adjustbox}
+\end{table}
+\end{document}

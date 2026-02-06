@@ -1,0 +1,59 @@
+\documentclass[preview]{standalone}
+\usepackage{adjustbox}
+\usepackage{graphicx}
+\begin{document}
+
+\begin{table}[!htbp] \centering 
+  \caption{Relationship Between Child Hard Work and Education Level} 
+  \label{} 
+\begin{adjustbox}{max width=\textwidth}
+\begin{tabular}{@{\extracolsep{5pt}}lccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+ & \multicolumn{3}{c}{Child Hard Work} \\ 
+\cline{2-4} 
+\\[-1.8ex] & \multicolumn{2}{c}{\textit{OLS}} & \textit{felm} \\ 
+ & Reg & Reg w/ Controls & Reg w/ Controls and Country FE \\ 
+\\[-1.8ex] & (1) & (2) & (3)\\ 
+\hline \\[-1.8ex] 
+ Education Level & $-$0.0070$^{***}$ & $-$0.0053$^{***}$ & $-$0.0089$^{***}$ \\ 
+  & (0.0008) & (0.0009) & (0.0023) \\ 
+  & & & \\ 
+ Gender &  & $-$0.0324$^{***}$ & $-$0.0320$^{***}$ \\ 
+  &  & (0.0035) & (0.0059) \\ 
+  & & & \\ 
+ Age &  & 0.0006$^{***}$ & 0.0014$^{***}$ \\ 
+  &  & (0.0001) & (0.0003) \\ 
+  & & & \\ 
+ Immigrant &  & 0.0014 & 0.0334$^{**}$ \\ 
+  &  & (0.0075) & (0.0146) \\ 
+  & & & \\ 
+ Birth Country &  & 0.00002$^{***}$ & 0.000004 \\ 
+  &  & (0.000003) & (0.000003) \\ 
+  & & & \\ 
+ Has Children &  & 0.0036$^{***}$ & 0.0010 \\ 
+  &  & (0.0011) & (0.0024) \\ 
+  & & & \\ 
+ Employment Status &  & $-$0.0024$^{***}$ & $-$0.0042$^{***}$ \\ 
+  &  & (0.0009) & (0.0015) \\ 
+  & & & \\ 
+ Income Level &  & 0.0007 & $-$0.0003 \\ 
+  &  & (0.0009) & (0.0015) \\ 
+  & & & \\ 
+ Constant & 0.5588$^{***}$ & 0.5538$^{***}$ &  \\ 
+  & (0.0033) & (0.0119) &  \\ 
+  & & & \\ 
+\hline \\[-1.8ex] 
+Country FE &  &  & X \\ 
+Observations & 95,523 & 85,139 & 85,139 \\ 
+R$^{2}$ & 0.0008 & 0.0035 & 0.1163 \\ 
+Adjusted R$^{2}$ & 0.0008 & 0.0034 & 0.1156 \\ 
+Residual Std. Error & 0.4987 (df = 95521) & 0.4984 (df = 85130) & 0.4695 (df = 85068) \\ 
+F Statistic & 77.1907$^{***}$ (df = 1; 95521) & 37.1108$^{***}$ (df = 8; 85130) &  \\ 
+\hline 
+\hline \\[-1.8ex] 
+\textit{Note:}  & \multicolumn{3}{r}{$^{*}$p$<$0.1; $^{**}$p$<$0.05; $^{***}$p$<$0.01} \\ 
+\end{tabular} 
+\end{adjustbox}
+\end{table}
+\end{document}
